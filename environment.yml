@@ -7,10 +7,9 @@ channels:
 dependencies:
   - python=3
   - iris
-  - numpy
   - pandas
-  - netcdf4
   - sphinx
   - python-stratify
   - pycodestyle
   - pylint
+  - pytest
