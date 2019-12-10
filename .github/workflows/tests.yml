@@ -1,5 +1,4 @@
-name: Unit tests
-
+name: Tests
 on: [push]
 
 jobs:
@@ -14,7 +13,9 @@ jobs:
     - name: Test with pytest
       uses: matthewrmshin/conda-action@v1
       with:
-        args: python3 -m pytest
+        args: |
+          conda activate improver
+          pytest
     - name: Lint with flake8
       run: |
         pip install flake8
