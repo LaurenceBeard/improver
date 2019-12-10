@@ -20,5 +20,4 @@ jobs:
     - name: Test with pytest
       run: |
         $CONDA/bin/conda list
-        $CONDA/bin/conda activate improver
-        pytest
+        $CONDA/bin/pytest
