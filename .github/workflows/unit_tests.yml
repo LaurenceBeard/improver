@@ -21,6 +21,7 @@ jobs:
         args: pytest
     - name: Unit tests 
       uses: matthewrmshin/conda-action@v1
+      with:
         args: bin/improver tests
     - name: Lint with flake8
       run: |
