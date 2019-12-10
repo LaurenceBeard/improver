@@ -9,8 +9,6 @@ dependencies:
   - iris=2.2
   - numpy=1.15.4
   - cftime=1.0.1
-  - pandas
-  - sphinx=1.8.1
   - python-stratify=0.1
   - pytest
   - filelock
