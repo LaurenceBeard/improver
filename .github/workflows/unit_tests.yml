@@ -16,6 +16,7 @@ jobs:
         # Create the basic testing environment
         # ------------------------------------
         # Explicitly add defaults channel, see https://github.com/conda/conda/issues/2675
+        $CONDA/bin/conda init bash
         $CONDA/bin/conda config --add channels defaults
         $CONDA/bin/conda config --set always_yes yes --set changeps1 no
         $CONDA/bin/conda config --set show_channel_urls True
