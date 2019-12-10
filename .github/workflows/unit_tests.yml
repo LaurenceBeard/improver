@@ -10,7 +10,7 @@ jobs:
     - name: Set up Python 3.6
       uses: actions/setup-python@v1
       with:
-        python-version: 3.6.6
+        python-version: 3.6
     - name: Install dependencies
       run: |
         # Iris setup credit to github.com/SciTools/iris 07bbaf4.
