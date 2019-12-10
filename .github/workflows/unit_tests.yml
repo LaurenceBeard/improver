@@ -14,7 +14,9 @@ jobs:
     - name: Test import Iris
       uses: matthewrmshin/conda-action@v1
       with:
-        args: python3 -m irisversion
+        args: |
+          python3 -V
+          python -c 'import iris;print("iris",iris.__version__)'
     - name: Test with pytest
       uses: matthewrmshin/conda-action@v1
       with:
