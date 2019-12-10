@@ -14,7 +14,7 @@ jobs:
     - name: Test with pytest
       uses: matthewrmshin/conda-action@v1
       with:
-        args: pytest
+        args: python3 -m pytest
     - name: Lint with flake8
       run: |
         pip install flake8
