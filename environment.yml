@@ -11,3 +11,5 @@ dependencies:
   - sphinx
   - python-stratify
   - pytest
+  - filelock
+  - mock
