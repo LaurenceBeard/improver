@@ -12,3 +12,5 @@ dependencies:
   - netcdf4
   - sphinx
   - python-stratify
+  - pycodestyle
+  - pylint
