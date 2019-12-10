@@ -15,9 +15,10 @@ jobs:
         python-version: 3.7
     - name: Install dependencies
       run: |
-        $CONDA env update
+        
+        $CONDA/bin/conda env update
 
     - name: Test with pytest
       run: |
-        $CONDA activate improver
+        $CONDA/bin/conda activate improver
         pytest
