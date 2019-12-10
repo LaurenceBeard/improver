@@ -11,20 +11,15 @@ jobs:
       uses: matthewrmshin/conda-action@v1
       with:
         args: conda env update
-    - name: Test import Iris
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: |
-          python3 -V
-          python -c 'import iris;print("iris",iris.__version__)'
-    - name: Test with pytest
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: pytest
     - name: Unit tests 
       uses: matthewrmshin/conda-action@v1
       with:
         args: bin/improver tests
+        
+    - name: Test with pytest
+      uses: matthewrmshin/conda-action@v1
+      with:
+        args: pytest
     - name: Lint with flake8
       run: |
         pip install flake8
