@@ -16,30 +16,26 @@ jobs:
         $CONDA/bin/pip install clize
         
     - name: Unit test (Pytest)
-      run: |
-        ls ./*
-        $CONDA/bin/pytest -m "not acc"
+      run:  $CONDA/bin/pytest -m "not acc"
 
     - name: Style test (Pycodestyle)
       run: |
-        FILES_TO_TEST=`find . -type f \( -name '*.py' \
-                                      -o -name 'improver-*' \
-                                       ! -name 'improver-tests' \
-                                       ! -name '*~' \)`
+        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
+                                        -o -name 'improver-*' \
+                                         ! -name 'improver-tests' \
+                                         ! -name '*~' \)`
         $CONDA/bin/pip install pycodestyle
         $CONDA/bin/pycodestyle $FILES_TO_TEST
         
     - name: Code linter (Pylint)
       run: |
-        FILES_TO_TEST=`find . -type f \( -name '*.py' \
-                                      -o -name 'improver-*' \
-                                       ! -name 'improver-tests' \
-                                       ! -name '*~' \)`
+        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
+                                        -o -name 'improver-*' \
+                                         ! -name 'improver-tests' \
+                                         ! -name '*~' \)`
         $CONDA/bin/pip install pylint
-        $CONDA/bin/pylint -E --rcfile=./etc/pylintrc $FILES_TO_TEST
+        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
         
     - name: Doc test
       run: |
-        ls
-        cd doc
         $CONDA/bin/sphinx-build -b html 1>/dev/null
