@@ -20,7 +20,7 @@ jobs:
         ls $CONDA/bin/
         $CONDA/bin/pytest -m "not acc"
 
-    - name: Style/lint test
+    - name: Style test (Pycodestyle)
       run: |
         FILES_TO_TEST=`find . -type f \( -name '*.py' \
                                       -o -name 'improver-*' \
@@ -28,8 +28,15 @@ jobs:
                                        ! -name '*~' \)`
         $CONDA/bin/pip install pycodestyle
         $CONDA/bin/pycodestyle $FILES_TO_TEST
+        
+    - name: Code linter (Pylint)
+      run: |
+        FILES_TO_TEST=`find . -type f \( -name '*.py' \
+                                      -o -name 'improver-*' \
+                                       ! -name 'improver-tests' \
+                                       ! -name '*~' \)`
         $CONDA/bin/pip install pylint
-        $CONDA/bin/pylint -E $FILES_TO_TEST
+        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
         
     - name: Doc test
       run: |
