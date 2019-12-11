@@ -1,4 +1,4 @@
-name: Pytest action
+name: Tests
 
 on: [push]
 
@@ -13,6 +13,16 @@ jobs:
       run: |
         $CONDA/bin/conda env update --file environment.yml --name base
         $CONDA/bin/conda list
-    - name: Test with pytest
+    - name: Unit test (Pytest)
       run: |
-        bin/improver tests
+        ls $CONDA/bin/
+        $CONDA/bin/pytest -m "not acc"
+    - name: Style test
+      run: |
+        $CONDA/bin/pycodestyle
+    - name: Doc test
+      run: |
+        $CONDA/bin/sphinx-build -b html
+    - name: Lint
+      run: |
+        $CONDA/bin/pylint -E
