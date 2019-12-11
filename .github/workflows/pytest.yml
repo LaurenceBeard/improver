@@ -28,7 +28,7 @@ jobs:
         
     - name: Sphinx-build (Doc test)
       run: |
-        make $CONDA/bin/sphinx-build html 1>/dev/null
+        make SPHINXBUILD=sphinx-build html 1>/dev/null
         
     - name: Lint with flake8
       run: |
