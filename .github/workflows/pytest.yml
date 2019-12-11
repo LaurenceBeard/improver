@@ -14,13 +14,12 @@ jobs:
         $CONDA/bin/conda env update --file environment.yml --name base
         $CONDA/bin/conda list
         $CONDA/bin/pip install clize
+        
     - name: Unit test (Pytest)
       run: |
         ls $CONDA/bin/
         $CONDA/bin/pytest -m "not acc"
-    - name: Doc test
-      run: |
-        $CONDA/bin/sphinx-build -b html
+
     - name: Style/lint test
       run: |
         FILES_TO_TEST=`find . -type f \( -name '*.py' \
@@ -31,3 +30,9 @@ jobs:
         $CONDA/bin/pycodestyle $FILES_TO_TEST
         $CONDA/bin/pip install pylint
         $CONDA/bin/pylint -E $FILES_TO_TEST
+        
+    - name: Doc test
+      run: |
+        ls
+        cd doc
+        $CONDA/bin/sphinx-build -b html 1>/dev/null
