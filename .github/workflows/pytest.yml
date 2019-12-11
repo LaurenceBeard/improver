@@ -15,4 +15,4 @@ jobs:
         $CONDA/bin/conda list
     - name: Test with pytest
       run: |
-        $CONDA/bin/pytest
+        bin/improver tests
