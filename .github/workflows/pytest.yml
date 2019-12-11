@@ -27,9 +27,7 @@ jobs:
         $CONDA/bin/pycodestyle $FILES_TO_TEST
         
     - name: Sphinx-build (Doc test)
-      run: |
-        cd doc
-        make SPHINXBUILD=sphinx-build html 1>/dev/null
+      run: cd doc; make html
         
     - name: Lint with flake8
       run: |
