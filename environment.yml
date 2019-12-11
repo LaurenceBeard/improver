@@ -12,6 +12,8 @@ dependencies:
   - pandas
   - sphinx=1.8.1
   - python-stratify=0.1
+  - pycodestyle
+  - pylint
   - pytest
   - filelock
   - mock
