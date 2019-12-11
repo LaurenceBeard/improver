@@ -17,7 +17,7 @@ jobs:
         
     - name: Unit test (Pytest)
       run: |
-        ls $CONDA/bin/
+        ls ./*
         $CONDA/bin/pytest -m "not acc"
 
     - name: Style test (Pycodestyle)
@@ -36,7 +36,7 @@ jobs:
                                        ! -name 'improver-tests' \
                                        ! -name '*~' \)`
         $CONDA/bin/pip install pylint
-        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
+        $CONDA/bin/pylint -E --rcfile=./etc/pylintrc $FILES_TO_TEST
         
     - name: Doc test
       run: |
