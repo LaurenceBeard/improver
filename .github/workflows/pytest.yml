@@ -18,14 +18,16 @@ jobs:
       run: |
         ls $CONDA/bin/
         $CONDA/bin/pytest -m "not acc"
-    - name: Style test
-      run: |
-        $CONDA/bin/pip install pycodestyle
-        $CONDA/bin/pycodestyle
     - name: Doc test
       run: |
         $CONDA/bin/sphinx-build -b html
-    - name: Lint
+    - name: Style/lint test
       run: |
-       $CONDA/bin/pip install pycodestyle
-        $CONDA/bin/pylint -E
+        FILES_TO_TEST=`find . -type f \( -name '*.py' \
+                                      -o -name 'improver-*' \
+                                       ! -name 'improver-tests' \
+                                       ! -name '*~' \)`
+        $CONDA/bin/pip install pycodestyle
+        $CONDA/bin/pycodestyle $FILES_TO_TEST
+        $CONDA/bin/pip install pylint
+        $CONDA/bin/pylint -E $FILES_TO_TEST
