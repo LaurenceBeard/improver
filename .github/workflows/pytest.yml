@@ -19,23 +19,10 @@ jobs:
       run:  $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run: |
-        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
-                                        -o -name 'improver-*' \
-                                         ! -name 'improver-tests' \
-                                         ! -name '*~' \)`
-        $CONDA/bin/pycodestyle $FILES_TO_TEST
+      run: $CONDA/bin/pycodestyle lib
         
     - name: Sphinx-build (Doc test)
-      run: cd doc; make html
-        
-    - name: Lint with flake8
-      run: |
-        pip install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
         
     - name: Link with Pylint
       run: |
