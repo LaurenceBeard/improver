@@ -7,9 +7,8 @@ jobs:
     
     runs-on: ubuntu-latest
     env:
-      PYTEST: $CONDA/bin/pytest
-      PYLINT: $CONDA/bin/pylint
-      PYCODESTYLE: $CONDA/bin/pycodestyle
+      PYLINT: "$CONDA/bin/pylint"
+      PYCODESTYLE: "$CONDA/bin/pycodestyle"
       
     steps:
     - uses: actions/checkout@v1
@@ -20,7 +19,7 @@ jobs:
         $CONDA/bin/pip install clize
         
     - name: Pytest (Unit test)
-      run: $PYTEST -m "not acc"
+      run: $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
       run: bin/improver tests pycodestyle
