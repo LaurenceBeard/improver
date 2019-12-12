@@ -3,31 +3,31 @@ name: Tests
 on: [push]
 
 jobs:
-  Tests:
-    
+  build:
+
     runs-on: ubuntu-latest
-      
+
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda env update -q --file environment.yml --name base
+        $CONDA/bin/conda env update --file environment.yml --name base
+        $CONDA/bin/conda list
         $CONDA/bin/pip install clize
-        $CONDA/bin/conda list --export
-        
-    - name: Sphinx-build (Doc test)
-      run: bin/improver tests doc        
         
     - name: Pytest (Unit test)
-      run: $CONDA/bin/pytest -m "not acc"
-
-    - name: Bandit Check
-      uses: jpetrucciani/bandit-check@1.6.2
-      with:
-        path: lib
+      run:  $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run: env PYCODESTYLE=$CONDA/bin/pycodestyle bin/improver tests pycodestyle
+      run:  $CONDA/bin/pycodestyle lib
         
-    - name: Pylint (More linting)
-      run: env PYLINT=$CONDA/bin/pylint bin/improver tests pylintE
+    - name: Sphinx-build (Doc test)
+      run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
+        
+    - name: Link with Pylint
+      run: |
+        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
+                                        -o -name 'improver-*' \
+                                         ! -name 'improver-tests' \
+                                         ! -name '*~' \)`
+        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
