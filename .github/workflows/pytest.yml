@@ -3,10 +3,14 @@ name: Tests
 on: [push]
 
 jobs:
-  build:
-
+  Tests:
+    
     runs-on: ubuntu-latest
-
+    env:
+      PYTEST: $CONDA/bin/pytest
+      PYLINT: $CONDA/bin/pylint
+      PYCODESTYLE: $CONDA/bin/pycodestyle
+      
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
@@ -16,19 +20,14 @@ jobs:
         $CONDA/bin/pip install clize
         
     - name: Pytest (Unit test)
-      run:  $CONDA/bin/pytest -m "not acc"
+      run: $PYTEST -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run: $CONDA/bin/pycodestyle lib
+      run: bin/improver tests pycodestyle
         
     - name: Sphinx-build (Doc test)
-      run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
+      run: bin/improver tests doc
         
-    - name: Link with Pylint
-      run: |
-        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
-                                        -o -name 'improver-*' \
-                                         ! -name 'improver-tests' \
-                                         ! -name '*~' \)`
-        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
+    - name: Pylint (More linting)
+      run: bin/improver tests pylintE
         
