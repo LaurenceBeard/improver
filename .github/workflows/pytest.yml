@@ -11,19 +11,18 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install dependencies
       run: |
-        $CONDA/bin/conda env update --file environment.yml --name base
-        $CONDA/bin/conda list
+        $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/pip install clize
-        
+        $CONDA/bin/conda list --export
     - name: Pytest (Unit test)
       run: $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run: env PYLINT=$CONDA/bin/pylint bin/improver tests pycodestyle
+      run: env PYCODESTYLE=$CONDA/bin/pycodestyle bin/improver tests pycodestyle
         
     - name: Sphinx-build (Doc test)
       run: env SPHINXBUILD=$CONDA/bin/sphinx-build bin/improver tests doc
         
     - name: Pylint (More linting)
-      run: env PYCODESTYLE=$CONDA/bin/pycodestyle bin/improver tests pylintE
+      run: env PYLINT=$CONDA/bin/pylint bin/improver tests pylintE
         
