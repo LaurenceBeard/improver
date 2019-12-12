@@ -6,9 +6,6 @@ jobs:
   Tests:
     
     runs-on: ubuntu-latest
-    env:
-      PYLINT: "$CONDA/bin/pylint"
-      PYCODESTYLE: "$CONDA/bin/pycodestyle"
       
     steps:
     - uses: actions/checkout@v1
@@ -22,11 +19,11 @@ jobs:
       run: $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run: bin/improver tests pycodestyle
+      run: env PYLINT=$CONDA/bin/pylint bin/improver tests pycodestyle
         
     - name: Sphinx-build (Doc test)
-      run: bin/improver tests doc
+      run: env SPHINXBUILD=$CONDA/bin/sphinx-build bin/improver tests doc
         
     - name: Pylint (More linting)
-      run: bin/improver tests pylintE
+      run: env PYCODESTYLE=$CONDA/bin/pycodestyle bin/improver tests pylintE
         
