@@ -24,10 +24,5 @@ jobs:
     - name: Sphinx-build (Doc test)
       run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
         
-    - name: Link with Pylint
-      run: |
-        FILES_TO_TEST=`find lib -type f \( -name '*.py' \
-                                        -o -name 'improver-*' \
-                                         ! -name 'improver-tests' \
-                                         ! -name '*~' \)`
-        $CONDA/bin/pylint -E --rcfile=etc/pylintrc $FILES_TO_TEST
+    - name: Pylint (More linting goodness)
+      run: $CONDA/bin/pylint -E --rcfile=etc/pylintrc lib
