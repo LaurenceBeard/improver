@@ -30,7 +30,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: conda-install
-        path: $CONDA/lib/python3.6/site-packages
+        path: /usr/share/miniconda/lib/python3.6/site-packages
     - name: Pycodestyle (PEP8 conventions)
       run:  $CONDA/bin/pycodestyle -v lib
 
