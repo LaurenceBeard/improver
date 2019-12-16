@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        $CONDA/bin/conda env update -q --file  --name base
+        $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
         $CONDA/bin/conda env list
