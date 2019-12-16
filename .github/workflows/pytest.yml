@@ -22,9 +22,9 @@ jobs:
       uses: matthewrmshin/conda-action@v1
       with:
         args: |
-          conda env update -q --file environment.yml
-          conda list --export
-          conda env list
+          env update -q --file environment.yml
+          list --export
+          env list
     - name: Pytest (Unit tests)
       uses: matthewrmshin/conda-action@v1
       with:
