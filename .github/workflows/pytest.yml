@@ -12,7 +12,7 @@ jobs:
     - uses: actions/cache@v1
       id: cache
       with:
-        path: /usr/share/miniconda/lib/python3.6/site-packages
+        path: /usr/share/miniconda/
         key: ${{ runner.os }}-conda-cache-${{ hashFiles('**/environment.yml') }}
         restore-keys: |
           ${{ runner.OS }}-conda-cache-
@@ -23,7 +23,6 @@ jobs:
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
         $CONDA/bin/conda env list
-        ls $CONDA/lib/
 
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
