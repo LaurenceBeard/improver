@@ -14,13 +14,22 @@ jobs:
         $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
-        
+    - uses: actions/upload-artifact@master
+    - name: Cache dependencies
+      with:
+        name: conda-install
+        path: $CONDA/lib/python3.6/site-packages
+
   Tests:
     needs: Install
     runs-on: ubuntu-latest
 
     steps:
-
+    - uses: actions/download-artifact@master
+    - name: Fetch dependencies from cache
+      with:
+        name: conda-install
+        path: $CONDA/lib/python3.6/site-packages
       
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
@@ -36,5 +45,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/download-artifact@master
+    - name: Fetch dependencies from cache
+      with:
+        name: conda-install
+        path: $CONDA/lib/python3.6/site-packages
     - name: Pylint (More linting goodness)
       run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
