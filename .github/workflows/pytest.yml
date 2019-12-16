@@ -14,7 +14,7 @@ jobs:
         $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
-        $CONDA/bin/pip env list
+        $CONDA/bin/conda env list
     - uses: actions/upload-artifact@master
       with:
         name: conda-install
