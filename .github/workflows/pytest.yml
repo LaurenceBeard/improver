@@ -22,6 +22,7 @@ jobs:
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
         $CONDA/bin/conda env list
+        ls $CONDA/lib/
 
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
