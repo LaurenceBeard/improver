@@ -3,35 +3,25 @@ name: Tests
 on: [push]
 
 jobs:
-  Install:
+  Tests:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/cache@v1
-      id: cache
-      with:
-        path: /usr/share/miniconda/
-        key: ${{ runner.os }}-conda-cache-${{ hashFiles('**/environment.yml') }}
-        restore-keys: |
-          ${{ runner.OS }}-conda-cache-
-
     - name: Install dependencies
-      if: steps.cache.outputs.cache-hit != 'true'
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: conda env update -q --file environment.yml
-    - name: List conda envs
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: conda env list
+      run: |
+        $CONDA/bin/conda env update -q --file environment.yml --name base
+        $CONDA/bin/conda list --export
+        $CONDA/bin/pip install clize
     - name: Pytest (Unit tests)
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: pytest -m "not acc"
+      run:  $CONDA/bin/pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      uses: matthewrmshin/conda-action@v1
-      with:
-        args: pycodestyle -v lib
+      run:  $CONDA/bin/pycodestyle -v lib
+
+    - name: Sphinx-build (Doc test)
+      run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
+
+    - name: Pylint (More linting goodness)
+      run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
