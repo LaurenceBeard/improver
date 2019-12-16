@@ -25,4 +25,4 @@ jobs:
       run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
 
     - name: Pylint (More linting goodness)
-      run: $CONDA/bin/pylint -E --rcfile=etc/pylintrc lib
+      run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
