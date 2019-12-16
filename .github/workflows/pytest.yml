@@ -3,7 +3,7 @@ name: Tests
 on: [push]
 
 jobs:
-  Tests:
+  Install:
 
     runs-on: ubuntu-latest
 
@@ -14,7 +14,13 @@ jobs:
         $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
+        
+  Tests:
 
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: Install
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
 
@@ -23,6 +29,12 @@ jobs:
 
     - name: Sphinx-build (Doc test)
       run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
+      
+  Linting:
 
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: Install    
     - name: Pylint (More linting goodness)
       run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
