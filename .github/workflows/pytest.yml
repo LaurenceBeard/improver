@@ -9,42 +9,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      with:
+        path: /usr/share/miniconda/lib/python3.6/site-packages
+        key: ${{ runner.os }}-conda-cache-${{ hashFiles('**/environment.yml') }}
+        restore-keys: |
+          ${{ runner.OS }}-conda-cache-
     - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        $CONDA/bin/conda env update -q --file environment.yml --name base
+        $CONDA/bin/conda env update -q --file  --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
         $CONDA/bin/conda env list
-    - uses: actions/upload-artifact@master
-      with:
-        name: conda-install
-        path: /usr/share/miniconda/lib/python3.6/site-packages
 
-  Tests:
-    needs: Install
-    runs-on: ubuntu-latest
-
-    steps:     
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
-    - uses: actions/download-artifact@master
-      with:
-        name: conda-install
-        path: /usr/share/miniconda/lib/python3.6/site-packages
+
     - name: Pycodestyle (PEP8 conventions)
       run:  $CONDA/bin/pycodestyle -v lib
 
     - name: Sphinx-build (Doc test)
       run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
       
-  Linting:
-    needs: Install
-    runs-on: ubuntu-latest
-
-    steps:
     - name: Pylint (More linting goodness)
       run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
-    - uses: actions/download-artifact@master
-      with:
-        name: conda-install
-        path: /usr/share/miniconda/lib/python3.6/site-packages
