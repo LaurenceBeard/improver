@@ -14,10 +14,11 @@ jobs:
         $CONDA/bin/conda env update -q --file environment.yml --name base
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
+        $CONDA/bin/pip env list
     - uses: actions/upload-artifact@master
       with:
         name: conda-install
-        path: $CONDA/lib/python3.6/site-packages
+        path: /usr/share/miniconda/lib/python3.6/site-packages
 
   Tests:
     needs: Install
@@ -46,4 +47,4 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: conda-install
-        path: $CONDA/lib/python3.6/site-packages
+        path: /usr/share/miniconda/lib/python3.6/site-packages
