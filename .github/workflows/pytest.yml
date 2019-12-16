@@ -16,11 +16,12 @@ jobs:
         $CONDA/bin/pip install clize
         
   Tests:
-
+    needs: Install
     runs-on: ubuntu-latest
 
     steps:
-    - uses: Install
+
+      
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
 
@@ -31,10 +32,9 @@ jobs:
       run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
       
   Linting:
-
+    needs: Install
     runs-on: ubuntu-latest
 
     steps:
-    - uses: Install    
     - name: Pylint (More linting goodness)
       run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
