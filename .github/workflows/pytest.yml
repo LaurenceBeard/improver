@@ -15,7 +15,6 @@ jobs:
         $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
     - uses: actions/upload-artifact@master
-    - name: Cache dependencies
       with:
         name: conda-install
         path: $CONDA/lib/python3.6/site-packages
@@ -24,16 +23,13 @@ jobs:
     needs: Install
     runs-on: ubuntu-latest
 
-    steps:
+    steps:     
+    - name: Pytest (Unit tests)
+      run:  $CONDA/bin/pytest -m "not acc"
     - uses: actions/download-artifact@master
-    - name: Fetch dependencies from cache
       with:
         name: conda-install
         path: $CONDA/lib/python3.6/site-packages
-      
-    - name: Pytest (Unit tests)
-      run:  $CONDA/bin/pytest -m "not acc"
-
     - name: Pycodestyle (PEP8 conventions)
       run:  $CONDA/bin/pycodestyle -v lib
 
@@ -45,10 +41,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Pylint (More linting goodness)
+      run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
     - uses: actions/download-artifact@master
-    - name: Fetch dependencies from cache
       with:
         name: conda-install
         path: $CONDA/lib/python3.6/site-packages
-    - name: Pylint (More linting goodness)
-      run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
