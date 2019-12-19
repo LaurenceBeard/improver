@@ -11,7 +11,7 @@ jobs:
     - uses: actions/cache@v1
       id: cache
       with:
-        path: full_environment.yml
+        path: miniconda
         key: ${{ runner.os }}-conda-cache-${{ hashFiles('**/environment.yml') }}
         restore-keys: |
           ${{ runner.OS }}-conda-cache-
@@ -21,11 +21,10 @@ jobs:
         $CONDA/bin/conda env update -q --file full_environment.yml --name base
         $CONDA/bin/conda env list
     - name: Resolve and install dependencies
-      if: steps.cache.outputs.cache-hit != 'false'
+      if: steps.cache.outputs.cache-hit == 'true'
       run: |
-        $CONDA/bin/conda env update -q --file environment.yml --name base
-        $CONDA/bin/pip install clize
-        $CONDA/bin/conda list --export > full_environment.yml
+        source 'miniconda/etc/profile.d/conda.sh'
+        conda env list
 
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
