@@ -34,11 +34,6 @@ jobs:
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
         conda activate improver
         pytest -m "not acc"
-    - name: Pycodestyle (PEP8 conventions)
-      run:  |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
-        conda activate improver
-        pycodestyle -v lib
     - name: Pylint (More linting goodness)
       run: |
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
