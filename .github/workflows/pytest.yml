@@ -22,7 +22,8 @@ jobs:
         conda env update -q --file environment.yml --name improver
         conda env list
         conda activate improver
-        conda clean -a
+        conda remove pandas
+        conda list --export
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit == 'true'
       run: |
