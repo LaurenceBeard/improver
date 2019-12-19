@@ -16,6 +16,5 @@ dependencies:
   - astroid=2.1.0
   - pytest
   - filelock
-  - mock
   - pip:
     - clize
