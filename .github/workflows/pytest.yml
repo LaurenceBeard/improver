@@ -14,7 +14,7 @@ jobs:
         path: full_environment.yml
         key: ${{ runner.os }}-conda-fullenv-${{ hashFiles('**/environment.yml') }}
         restore-keys: |
-          ${{ runner.OS }}-conda-cache-
+          ${{ runner.OS }}-conda-fullenv-
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
