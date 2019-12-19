@@ -22,7 +22,7 @@ jobs:
         conda env update -q --file environment.yml --name improver
         conda env list
         conda activate improver
-        pip install clize
+        conda clean -a
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit == 'true'
       run: |
