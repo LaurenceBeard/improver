@@ -6,14 +6,27 @@ jobs:
   Tests:
 
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      id: cache
+      with:
+        path: full_environment.yml
+        key: ${{ runner.os }}-conda-cache-${{ hashFiles('**/environment.yml') }}
+        restore-keys: |
+          ${{ runner.OS }}-conda-cache-
     - name: Install dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: |
+        $CONDA/bin/conda env update -q --file full_environment.yml --name base
+        $CONDA/bin/conda env list
+    - name: Resolve and install dependencies
+      if: steps.cache.outputs.cache-hit != 'false'
       run: |
         $CONDA/bin/conda env update -q --file environment.yml --name base
-        $CONDA/bin/conda list --export
         $CONDA/bin/pip install clize
+        $CONDA/bin/conda list --export > full_environment.yml
+
     - name: Pytest (Unit tests)
       run:  $CONDA/bin/pytest -m "not acc"
 
