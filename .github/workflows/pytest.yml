@@ -23,6 +23,8 @@ jobs:
     - name: Resolve and install dependencies
       if: steps.cache.outputs.cache-hit == 'true'
       run: |
+        ls miniconda
+        ls miniconda/etc
         source 'miniconda/etc/profile.d/conda.sh'
         conda env list
 
