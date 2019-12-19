@@ -11,29 +11,47 @@ jobs:
     - uses: actions/cache@v1
       id: cache
       with:
-        path: .
-        key: ${{ runner.os }}-conda-fullenv-${{ hashFiles('**/environment.yml') }}
+        path: /usr/share/miniconda/envs/improver
+        key: ${{ runner.os }}-conda-improver-${{ hashFiles('**/environment.yml') }}
         restore-keys: |
-          ${{ runner.OS }}-conda-fullenv-
+          ${{ runner.OS }}-conda-improver-
     - name: Resolve and install dependencies
       if: steps.cache.outputs.cache-hit != 'true'
       run: |
-        $CONDA/bin/conda env update -q --file environment.yml --name base
-        $CONDA/bin/pip install clize
-        $CONDA/bin/conda list --export > full_environment.yml
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda env update -q --file environment.yml --name improver
+        conda env list
+        conda activate improver
+        pip install clize
+
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit == 'true'
       run: |
-        $CONDA/bin/conda env update --file full_environment.yml --name base
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda activate improver
+        $CONDA/bin/conda env update --file environment.yml --name base
 
     - name: Pytest (Unit tests)
-      run:  $CONDA/bin/pytest -m "not acc"
+      run:  |
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda activate improver
+        pytest -m "not acc"
 
     - name: Pycodestyle (PEP8 conventions)
-      run:  $CONDA/bin/pycodestyle -v lib
+      run:  |
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda activate improver
+        pycodestyle -v lib
 
     - name: Sphinx-build (Doc test)
-      run: cd doc; make SPHINXBUILD=$CONDA/bin/sphinx-build html
+      run: |
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda activate improver
+        cd doc
+        make SPHINXBUILD=$CONDA/bin/sphinx-build html
 
     - name: Pylint (More linting goodness)
-      run: $CONDA/bin/pylint -j 0 -E --rcfile=etc/pylintrc lib
+      run: |
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'
+        conda activate improver
+        pylint -j 0 -E --rcfile=etc/pylintrc lib
