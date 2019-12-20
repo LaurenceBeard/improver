@@ -34,8 +34,3 @@ jobs:
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
         conda activate improver
         pytest -m "not acc"
-    - name: Pylint (More linting goodness)
-      run: |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
-        conda activate improver
-        pylint -j 0 -E --rcfile=etc/pylintrc lib
