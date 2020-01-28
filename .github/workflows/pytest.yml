@@ -39,8 +39,13 @@ jobs:
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
         conda activate improver
         pycodestyle -v lib
+    - name: Sphinx-build (Doc test)	
+      run: |	
+        source '/usr/share/miniconda/etc/profile.d/conda.sh'	
+        conda activate improver	
+        cd doc	
+        make html
     - name: Pylint (More linting goodness)
       run: |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
         conda activate improver
         pylint -j 0 -E --rcfile=etc/pylintrc lib
