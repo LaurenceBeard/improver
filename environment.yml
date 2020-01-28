@@ -16,5 +16,6 @@ dependencies:
   - pylint=2.1.1
   - pytest
   - filelock
+  - sphinx
   - pip:
     - clize
