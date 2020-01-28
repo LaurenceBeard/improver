@@ -28,7 +28,7 @@ jobs:
       run: |
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
         conda activate improver
-        $CONDA/bin/conda env update --file environment.yml --name base
+        conda list --export
     - name: Pytest (Unit tests)
       run:  |
         source '/usr/share/miniconda/etc/profile.d/conda.sh'
