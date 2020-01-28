@@ -26,26 +26,22 @@ jobs:
     - name: Install dependencies
       if: steps.cache.outputs.cache-hit == 'true'
       run: |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
-        conda activate improver
+        source '/usr/share/miniconda/envs/improver/bin/activate'
         conda list --export
     - name: Pytest (Unit tests)
       run:  |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
-        conda activate improver
+        source '/usr/share/miniconda/envs/improver/bin/activate'
         pytest -m "not acc"
     - name: Pycodestyle (PEP8 conventions)
       run:  |
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'
-        conda activate improver
+        source '/usr/share/miniconda/envs/improver/bin/activate'
         pycodestyle -v lib
     - name: Sphinx-build (Doc test)	
       run: |	
-        source '/usr/share/miniconda/etc/profile.d/conda.sh'	
-        conda activate improver	
+        source '/usr/share/miniconda/envs/improver/bin/activate'
         cd doc	
         make html
     - name: Pylint (More linting goodness)
       run: |
-        conda activate improver
+        source '/usr/share/miniconda/envs/improver/bin/activate'
         pylint -j 0 -E --rcfile=etc/pylintrc lib
